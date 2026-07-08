@@ -2,5 +2,6 @@
 Lecture slides/
 Papers/
 
-# Local Claude Code settings (personal overrides, not shared)
-.claude/settings.local.json
+# Claude Code project files (not shared)
+.claude/
+CLAUDE.md
