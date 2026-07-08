@@ -6,6 +6,5 @@ Papers/
 .claude/
 CLAUDE.md
 
-# PowerPoint working files (not shared)
-*.pptx
+# PowerPoint temp lock files
 ~$*.pptx
