@@ -5,3 +5,7 @@ Papers/
 # Claude Code project files (not shared)
 .claude/
 CLAUDE.md
+
+# PowerPoint working files (not shared)
+*.pptx
+~$*.pptx
