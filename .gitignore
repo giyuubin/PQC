@@ -1,0 +1,6 @@
+# Copyrighted course material (Alfred Menezes, cryptography101.ca) — do not redistribute
+Lecture slides/
+Papers/
+
+# Local Claude Code settings (personal overrides, not shared)
+.claude/settings.local.json
