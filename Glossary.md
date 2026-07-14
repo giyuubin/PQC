@@ -31,3 +31,18 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 - **Lindner-Peikert 공개키 암호 (Lindner-Peikert Public-Key Encryption, 2011)**: ss-DLWE의 어려움에 기반한 공개키 암호. $n\times n$ 정사각행렬 $A$만으로 키를 생성하고, 라운딩 함수(Round$_q$)로 비트 하나를 암호화·복호화한다. 다항식 링 $R_q$로 확장하면 Kyber 공개키 암호의 원형이 됨.
 - **라운딩 함수 (Rounding Function, Round$_q$)와 대칭 mod ($\bmod_s q$)**: $\mathbb{Z}_q$의 원소를 $\{0,1\}$ 두 구간으로 반씩 나누는 함수. 대칭 mod는 $\mathbb{Z}_q$의 대표원을 $[-(q-1)/2,(q-1)/2]$로 표현하는 연산. Lindner-Peikert 암호의 복호화(잡음이 섞인 값에서 평문 비트를 복원)에 사용됨.
 - **IND-CPA (Indistinguishability under Chosen-Plaintext Attack, 선택 평문 공격 하 구별 불가능성)**: 공격자가 평문을 골라 암호화 결과를 볼 수 있어도, 두 평문의 암호문을 구별할 수 없다는 안전성 개념. Lindner-Peikert 암호는 ss-DLWE가 어렵다는 가정 아래 IND-CPA를 만족함(단, 선택 암호문 공격(CCA)에는 별도 변환 없이는 안전하지 않음).
+
+## Lattice-Based Cryptography (4강 Lattices)
+
+- **격자 (Lattice)**: $\mathbb{R}^n$ 안의 선형독립인 $m$개 벡터의 모든 정수 선형결합의 집합. 이 벡터들의 집합을 기저(basis)라 부르고, 격자의 차원은 $n$, 랭크는 $m$이다. 기저 좌표가 모두 정수이면 정수 격자(integer lattice), 랭크가 $n$과 같으면 완전계수(full-rank) 격자라 한다.
+- **부분격자 (Sublattice)**: 격자 $L$의 부분집합이면서 그 자체로도 격자인 것. $L'\subseteq L$이면 $L'$은 $L$의 부분격자.
+- **기본평행육면체 (Fundamental Parallelepiped)**: 기저 $B=[b_1,\dots,b_n]$에 대해 계수를 $[0,1)$로 제한한 결합들의 집합 $P(B)$. $\mathbb{R}^n$을 겹치지 않는 영역으로 채우는 데 쓰이며, 그 "부피"가 격자의 부피와 같다.
+- **유니모듈러 행렬 (Unimodular Matrix)**: 정수 성분을 갖고 행렬식이 $\pm1$인 정사각행렬. 같은 격자의 서로 다른 두 기저는 항상 유니모듈러 행렬로 연결된다(기저 특성화 정리).
+- **격자의 부피 (Volume of a Lattice)**: $\mathrm{vol}(L)=|\det(B)|$ ($B$는 임의의 기저). 기저 선택에 무관한 격자의 불변량이며, 클수록 격자가 성기다(듬성듬성하다).
+- **Successive minima (연속 최솟값)**: $i$번째 연속 최솟값 $\lambda_i(L)$은 $L$이 길이 $r$ 이하인 $i$개의 선형독립 벡터를 갖는 가장 작은 $r$. $\lambda_1(L)$은 최단 벡터의 길이.
+- **Hermite 상수 (Hermite Constant)**와 **Minkowski의 정리 (Minkowski's Theorem)**: 둘 다 $\lambda_1(L)$을 $\mathrm{vol}(L)^{1/n}$으로 상계짓는 도구. Hermite의 상계는 지수적($\gamma_n\le(4/3)^{(n-1)/2}$), Minkowski의 정리는 선형적($\lambda_1(L)\le\sqrt n\,\mathrm{vol}(L)^{1/n}$)이라 훨씬 강하다.
+- **가우스 휴리스틱 (Gaussian Heuristic)**: "무작위" 격자에서 $\lambda_1(L)\approx\sqrt{n/(2\pi e)}\,\mathrm{vol}(L)^{1/n}$이라는 근사식 — Minkowski 상계가 실전에서 거의 팽팽함을 시사.
+- **LLL 알고리즘 (Lenstra-Lenstra-Lovász Algorithm)**: 주어진 (나쁜) 기저로부터 상대적으로 짧고 거의 직교하는 기저를 다항식 시간에 찾는 알고리즘(1982). 격자 기반 암호분석(예: DSA nonce 유출 공격)의 핵심 도구.
+- **SVP (Shortest Vector Problem, 최단벡터문제)**: 격자의 0이 아닌 최단 벡터를 찾는 문제. NP-hard. 근사 버전 $\mathrm{SVP}_\gamma$는 길이 $\gamma\cdot\lambda_1(L)$ 이하인 벡터를 찾는 문제.
+- **SIVP (Shortest Independent Vectors Problem, 최단독립벡터문제)**: $n$개의 선형독립 벡터를 모두 길이 $\lambda_n(L)$ 이하로 찾는 문제. 해가 반드시 기저를 이루는 것은 아님.
+- **CVP (Closest Vector Problem, 최근접벡터문제)**: 격자 $L$과 목표 벡터 $t$가 주어졌을 때 $t$에 가장 가까운 격자점을 찾는 문제. Babai의 라운딩 알고리즘(LLL로 좋은 기저를 구한 뒤 반올림)으로 근사적으로 풀 수 있다.
