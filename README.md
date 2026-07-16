@@ -27,7 +27,7 @@ The three courses are studied in this order. The SIS/LWE/Module-LWE concepts bui
 
 ## Study Approach
 
-Each session works through the lecture slides alongside the official textbook (*A Gentle Introduction to Lattice-Based Cryptography*, etc.), cross-referencing the two. Formulas are derived from definitions step by step and verified with small numerical examples. After each session, comprehension questions are worked through and a summary note is kept.
+Each session is driven primarily by the lecture video (Cryptography 101 on YouTube), cross-referenced against the lecture slides where a local copy exists; the textbook (*A Gentle Introduction to Lattice-Based Cryptography*) is used only to supplement material the video and slides don't cover. Content is reorganized by conceptual/logical dependency rather than the source's original order. Formulas are derived from definitions step by step and verified with small numerical examples. After each session, comprehension questions are worked through and a structured summary note is saved.
 
 ## Reference Documents
 
