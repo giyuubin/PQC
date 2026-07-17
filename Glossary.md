@@ -46,3 +46,14 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 - **SVP (Shortest Vector Problem, 최단벡터문제)**: 격자의 0이 아닌 최단 벡터를 찾는 문제. NP-hard. 근사 버전 $\mathrm{SVP}_\gamma$는 길이 $\gamma\cdot\lambda_1(L)$ 이하인 벡터를 찾는 문제.
 - **SIVP (Shortest Independent Vectors Problem, 최단독립벡터문제)**: $n$개의 선형독립 벡터를 모두 길이 $\lambda_n(L)$ 이하로 찾는 문제. 해가 반드시 기저를 이루는 것은 아님.
 - **CVP (Closest Vector Problem, 최근접벡터문제)**: 격자 $L$과 목표 벡터 $t$가 주어졌을 때 $t$에 가장 가까운 격자점을 찾는 문제. Babai의 라운딩 알고리즘(LLL로 좋은 기저를 구한 뒤 반올림)으로 근사적으로 풀 수 있다.
+
+## Lattice-Based Cryptography (5강 SIS/LWE and Lattices)
+
+- **격자의 대안적 정의: 이산 가법 부분군 (Discrete Additive Subgroup)**: 격자 $L$을 "$\mathbb{R}^m$의 이산(discrete) 가법 부분군(additive subgroup)"으로 정의하는 방식 — 4강의 "선형독립 벡터들의 정수 선형결합" 정의와 동치이지만, $L_A^\perp=\{z:Az\equiv0\}$처럼 기저 후보 없이 방정식의 해 집합으로 주어진 대상이 애초에 격자인지 확인할 때 유용하다.
+- **SIS 격자 (SIS Lattice, $L_A^\perp$)**: $\{z\in\mathbb{Z}^m : Az\equiv0\pmod q\}$, 즉 SIS 방정식의 해 전체(=$A$의 null space)로 이루어진 격자. 완전계수 $q$-ary 격자이며, 부피는 $q^n$이고, $A$를 행 축소해 얻은 기저 행렬은 삼각 블록 형태 $C=\begin{bmatrix}qI_n&-\bar A\\0&I_{m-n}\end{bmatrix}$를 갖는다. SIS는 이 격자에서의 근사-$\mathrm{SVP}_\gamma$와 동치다.
+- **LWE 격자 (LWE Lattice, $L_A$)**: $\{y\in\mathbb{Z}^m : Az\equiv y\pmod q\text{인 }z\text{가 존재}\}$, 즉 $Az$로 표현 가능한 값들의 집합(=$A$의 mod $q$ 치역을 정수 전체로 확장한 것)으로 이루어진 격자. 완전계수 $q$-ary 격자이며, 부피는 $q^{m-n}$, 기저 행렬은 $D=\begin{bmatrix}I_n&0\\D_2&qI_{m-n}\end{bmatrix}$($D_2=A_2A_1^{-1}\bmod q$) 형태를 갖는다.
+- **$q$-ary 격자 ($q$-ary Lattice)**: $q\mathbb{Z}^m\subseteq L\subseteq\mathbb{Z}^m$을 만족하는 격자 — 동치로, $z\in L \iff z\bmod q\in L$, 즉 격자 소속 여부가 $\bmod q$ 값만으로 결정된다. SIS 격자와 LWE 격자 모두 이 성질을 갖는다.
+- **잉여류·몫군 (Coset · Quotient Group)**: 부분군(부분격자) $L$과 원소 $x$에 대해 $L$의 잉여류 $L+x=\{v+x:v\in L\}$; 서로 다른 잉여류 전체의 집합이 몫군 $\mathbb{Z}^m/L$이고 그 크기(지수)가 $|\mathbb{Z}^m/L|$이다. SIS 격자의 부피 $\mathrm{vol}(L_A^\perp)=q^n$을 증명할 때, 부피와 잉여류 개수가 같다는 사실(부분격자-부피 관계)이 핵심 도구로 쓰인다.
+- **최악 케이스-평균 케이스 환원 (Worst-Case to Average-Case Reduction)**: "특정 (무작위) 인스턴스가 어렵다"는 평균 케이스 보장을, "모든 인스턴스 중 최악의 경우가 어렵다"는 (더 믿기 쉬운) 최악 케이스 가정으로부터 이끌어내는 환원. Ajtai(1996)가 SIS에 대해, Regev(2005)가 LWE에 대해 각각 근사-$\mathrm{SIVP}$(LWE의 경우 양자적으로)로부터의 환원을 증명했다 — 다만 두 환원 모두 점근적이고 비타이트(non-tight)해서 실전 파라미터 선택에는 직접 쓰이지 않는다.
+- **BDD (Bounded Distance Decoding, 유한거리 복호화)**: 격자 $L$과 목표점 $b$가 주어졌을 때, $b$로부터 거리 $\alpha$ 이내에 있는 격자점 $y\in L$이 유일하다는 보장 하에 $y$를 찾는 문제. LWE 인스턴스 $(A,b)$는 $\alpha=\sqrt m B$인 $\mathrm{BDD}_\alpha$의 특수한 경우(단, $L_A$가 무작위가 아니라 $q$-ary인 특수 격자)로 재해석된다.
+- **Kannan embedding과 프라이멀 공격 (Primal Attack)**: $\mathrm{BDD}_\alpha$ 인스턴스 $(L=L(D),b)$를 $(m{+}1)$차원 격자 $L'=L(D')$($D'=\begin{bmatrix}D&-b\\0&\alpha\end{bmatrix}$)에서의 SVP로 환원하는 기법. $\tilde v=(y-b,\alpha)$가 $L'$의 (사실상) 유일한 최단벡터가 되도록 구성되어, $L'$에서 SVP를 풀면 BDD의 답 $y$를 복원할 수 있다. LWE를 SVP 알고리즘(BKZ 등)으로 직접 공격하는 실전 기법의 이름이기도 하다.
