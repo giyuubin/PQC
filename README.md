@@ -10,7 +10,7 @@ Following Prof. Alfred Menezes' (University of Waterloo) [Cryptography 101](http
 2. **Kyber and Dilithium** (4 lectures) — Concrete construction and optimization of the NIST standards ML-KEM and ML-DSA
 3. **Hash-Based Signature Schemes** (6 lectures) — LMS, XMSS, SPHINCS+ (SLH-DSA)
 
-The three courses are studied in this order. The SIS/LWE/Module-LWE concepts built in the first course are prerequisites for understanding Kyber and Dilithium, while Hash-Based Signatures are independent of lattice theory and are therefore placed last. The overall study plan targets **completion by October 1, 2026**. See [presentation/PQC_세미나_학습및발표계획.md](presentation/PQC_세미나_학습및발표계획.md) for the detailed schedule.
+The three courses are studied in this order. The SIS/LWE/Module-LWE concepts built in the first course are prerequisites for understanding Kyber and Dilithium, while Hash-Based Signatures are independent of lattice theory and are therefore placed last. The overall study plan targets **completion by October 1, 2026**. See [presentation/PQC_세미나_OT.pptx](presentation/PQC_세미나_OT.pptx) for the seminar orientation slides.
 
 ## Folder Structure
 
@@ -31,5 +31,5 @@ Each session is driven primarily by the lecture video (Cryptography 101 on YouTu
 
 ## Reference Documents
 
-- [presentation/PQC_세미나_학습및발표계획.md](presentation/PQC_세미나_학습및발표계획.md) — Full study/presentation schedule
+- [presentation/PQC_세미나_OT.pptx](presentation/PQC_세미나_OT.pptx) — Seminar orientation slides
 - [Glossary.md](Glossary.md) — Glossary of terms
