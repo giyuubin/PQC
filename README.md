@@ -4,21 +4,21 @@ A study repository for an Information Security / Smart Security (ISPL) undergrad
 
 ## Curriculum
 
-Following Prof. Alfred Menezes' (University of Waterloo) [Cryptography 101](https://cryptography101.ca) lecture series. It consists of 3 courses and 17 lectures in total.
+Following Prof. Alfred Menezes' (University of Waterloo) [Cryptography 101](https://cryptography101.ca) lecture series, studied in the following order. Lecture counts per course aren't tracked here, since Menezes may add lectures to a course over time — the most recent file in `Notes/` reflects both the current lecture count and where progress currently stands.
 
-1. **Lattice-Based Cryptography** (7 lectures) — Mathematical foundations of lattice-based cryptography (SIS, LWE, Ring/Module variants) — *in progress*
-2. **Kyber and Dilithium** (4 lectures) — Concrete construction and optimization of the NIST standards ML-KEM and ML-DSA
-3. **Hash-Based Signature Schemes** (6 lectures) — LMS, XMSS, SPHINCS+ (SLH-DSA)
+1. **Lattice-Based Cryptography** — Mathematical foundations of lattice-based cryptography (SIS, LWE, Ring/Module variants)
+2. **Kyber and Dilithium** — Concrete construction and optimization of the NIST standards ML-KEM and ML-DSA
+3. **Hash-Based Signature Schemes** — LMS, XMSS, SPHINCS+ (SLH-DSA)
 
-The three courses are studied in this order. The SIS/LWE/Module-LWE concepts built in the first course are prerequisites for understanding Kyber and Dilithium, while Hash-Based Signatures are independent of lattice theory and are therefore placed last. The overall study plan targets **completion by October 1, 2026**. See [presentation/0709_1_Introduction.pptx](presentation/0709_1_Introduction.pptx) for the seminar orientation slides.
+The SIS/LWE/Module-LWE concepts built in the first course are prerequisites for understanding Kyber and Dilithium, while Hash-Based Signatures are independent of lattice theory and are therefore placed last. Lecture numbers continue sequentially across course boundaries (e.g. if course 1 ends at lecture 7, course 2 starts at lecture 8). The overall study plan targets **completion by October 1, 2026**. See [presentation/0709_1_Introduction.pdf](presentation/0709_1_Introduction.pdf) for the seminar orientation slides.
 
 ## Folder Structure
 
 ```
 .
-├── Lecture slides/   # Lecture slide PDFs (copyrighted material — gitignored, not included in this repo)
+├── Lecture slides/   # Lecture slide PDFs, per course (copyrighted material — gitignored, not included in this repo)
 ├── Papers/           # Textbook PDFs (copyrighted material — gitignored, not included in this repo)
-├── Notes/            # Study notes per lecture (markdown)
+├── Notes/            # Study notes, one per lecture (markdown)
 ├── presentation/     # Seminar presentation materials (plans, slide drafts, etc.)
 └── Glossary.md       # Cumulative glossary of terms encountered during study
 ```
@@ -27,9 +27,9 @@ The three courses are studied in this order. The SIS/LWE/Module-LWE concepts bui
 
 ## Study Approach
 
-Each session is driven primarily by the lecture video (Cryptography 101 on YouTube), cross-referenced against the lecture slides where a local copy exists; the textbook (*A Gentle Introduction to Lattice-Based Cryptography*) is used only to supplement material the video and slides don't cover. Content is reorganized by conceptual/logical dependency rather than the source's original order. Formulas are derived from definitions step by step and verified with small numerical examples. After each session, comprehension questions are worked through and a structured summary note is saved.
+Each session is driven by the lecture video (Cryptography 101 on YouTube) as the sole primary source — the video already shows the lecture slides on screen, so the local `Lecture slides/` copy isn't cross-referenced separately (it only becomes the primary source for the rare session with no video link). The textbook (`Papers/`) is consulted only to supplement material the video doesn't cover, and is cited by page/location with a one-line summary rather than reproduced in the notes; the course-to-textbook mapping is recorded in each course's first note. Content is reorganized by conceptual/logical dependency rather than the source's original order. Formulas are derived from definitions step by step and verified with small numerical examples. After each session, comprehension questions are worked through and a structured summary note is saved.
 
 ## Reference Documents
 
-- [presentation/0709_1_Introduction.pptx](presentation/0709_1_Introduction.pptx) — Seminar orientation slides
+- [presentation/0709_1_Introduction.pdf](presentation/0709_1_Introduction.pdf) — Seminar orientation slides
 - [Glossary.md](Glossary.md) — Glossary of terms
