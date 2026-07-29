@@ -76,10 +76,11 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 - **ss-MLWE / ss-D-MLWE (Short-secret (Decisional) MLWE, 짧은 비밀 (결정) MLWE)**: 비밀 $s$도 오차 $e$처럼 작은 계수($S_{\eta_1}^\ell$)에서 뽑는 MLWE·D-MLWE 변형. 일반 MLWE와 계산적으로 동치. Kyber-PKE의 키 생성(공개키 $(A,b)$에서 개인키 $s$를 복원하는 것이 ss-MLWE 인스턴스)과 IND-CPA 안전성(ss-D-MLWE의 어려움에 근거)에 직접 쓰인다.
 - **Kyber-PKE**: Kyber(ML-KEM)의 바탕이 되는 공개키 암호 스킴 — Lindner-Peikert 암호(3강)를 모듈 $R_q^k$로 확장한 것. $q=3329$, $n=256$을 고정하고 $k\in\{2,3,4\}$로 보안 수준을 조절하며, 한 번에 $256$비트를 암호화한다. IND-CPA 안전성은 ss-D-MLWE의 어려움에 근거(교재 Theorem 6.4). Kyber-KEM은 이 Kyber-PKE에 Fujisaki-Okamoto류 변환을 적용해 만든다.
 
-## Lattice-Based Cryptography (8강 Kyber and Dilithium)
+## Kyber and Dilithium (8강 Kyber and Dilithium)
 
 - **큐비트 (Qubit)**와 **중첩 (Superposition)**: 큐비트는 고전 비트의 양자 대응물로, $0$과 $1$ 두 상태를 동시에(각각 어떤 확률로) 가질 수 있다 — 이 현상이 중첩. $n$큐비트 레지스터는 $2^n$개 상태 전부를 동시에 취할 수 있지만, 측정(measure)하는 순간 확률분포에 따라 그중 하나로 붕괴해 관측 가능한 출력은 단 하나뿐이다.
 - **Shor의 알고리즘 (Shor's Algorithm)**: 정수 인수분해·이산로그·타원곡선 이산로그(ECDLP)를 모두 양자 다항식 시간에 푸는 알고리즘(1994). RSA·이산로그·ECC 기반 공개키 암호 전체를 무너뜨리는 양자컴퓨터의 주된 위협.
 - **Grover의 알고리즘 (Grover's Algorithm)**: 비구조화 탐색(unstructured search) 문제를 고전 알고리즘의 제곱근 시간($\sqrt{2^n/d}$번의 함수 평가)에 푸는 양자 알고리즘(1996). AES 같은 블록암호에 대한 전수조사를 $2^{\ell/2}$번으로 가속하지만, 병렬화해도 선형으로 빨라지지 않는다. 대응책은 키 길이를 두 배(예: AES-256)로 늘리는 것.
 - **CNSA 2.0 (Commercial National Security Algorithms 2.0)**: 2022년 NSA가 발표한 양자 안전 알고리즘 스위트. 서명에 Dilithium, 키 캡슐화에 Kyber, 소프트웨어·펌웨어 서명에 해시 기반 서명 LMS·XMSS를 지정(대칭키 AES·SHA는 유지). CNSA 1.0(ECDSA·RSA 기반)을 대체하며, 전환 시한이 매우 공격적(예: 소프트웨어 서명 2030년까지 전면 전환).
 - **FIPS 205 (SPHINCS+/SLH-DSA)**: NIST가 2024년 8월 FIPS 203(Kyber)·FIPS 204(Dilithium)와 함께 발표한 세 번째 양자 안전 표준 — 상태를 저장하지 않는(stateless) 해시 기반 전자서명 스킴 SPHINCS+의 공식 명세(공식 이름 SLH-DSA, Stateless Hash-Based Digital Signature Algorithm). Kyber·Dilithium과 달리 격자가 아니라 해시 함수의 안전성에만 의존한다.
+- **D-MLWE (Decisional Module-LWE, 결정적 모듈-LWE)**: $A\in_RR_q^{k\times\ell}$가 주어졌을 때, $z=As+e$($s,e$가 작은 벡터, MLWE 인스턴스)인지 $z$가 완전히 무작위인 $R_q^k$ 벡터인지 구별하는 문제 — MLWE(탐색 버전, 비밀 $s$를 복원)의 결정 버전. Kyber-PKE의 IND-CPA 안전성이 정확히 이 문제의 어려움에 근거한다(비밀도 작다는 조건을 추가한 특수 경우가 ss-D-MLWE, 7강 참고).
