@@ -84,3 +84,9 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 - **CNSA 2.0 (Commercial National Security Algorithms 2.0)**: 2022년 NSA가 발표한 양자 안전 알고리즘 스위트. 서명에 Dilithium, 키 캡슐화에 Kyber, 소프트웨어·펌웨어 서명에 해시 기반 서명 LMS·XMSS를 지정(대칭키 AES·SHA는 유지). CNSA 1.0(ECDSA·RSA 기반)을 대체하며, 전환 시한이 매우 공격적(예: 소프트웨어 서명 2030년까지 전면 전환).
 - **FIPS 205 (SPHINCS+/SLH-DSA)**: NIST가 2024년 8월 FIPS 203(Kyber)·FIPS 204(Dilithium)와 함께 발표한 세 번째 양자 안전 표준 — 상태를 저장하지 않는(stateless) 해시 기반 전자서명 스킴 SPHINCS+의 공식 명세(공식 이름 SLH-DSA, Stateless Hash-Based Digital Signature Algorithm). Kyber·Dilithium과 달리 격자가 아니라 해시 함수의 안전성에만 의존한다.
 - **D-MLWE (Decisional Module-LWE, 결정적 모듈-LWE)**: $A\in_RR_q^{k\times\ell}$가 주어졌을 때, $z=As+e$($s,e$가 작은 벡터, MLWE 인스턴스)인지 $z$가 완전히 무작위인 $R_q^k$ 벡터인지 구별하는 문제 — MLWE(탐색 버전, 비밀 $s$를 복원)의 결정 버전. Kyber-PKE의 IND-CPA 안전성이 정확히 이 문제의 어려움에 근거한다(비밀도 작다는 조건을 추가한 특수 경우가 ss-D-MLWE, 7강 참고).
+
+## Kyber and Dilithium (9강 Kyber-PKE)
+
+- **가장 가까운 정수 표기 $\lceil x\rfloor$ (Nearest Integer, Ties Broken Upward)**: $x$에 가장 가까운 정수를 나타내되, 동점(예: $x=13.5$)인 경우 위로 반올림하는 함수. $\mathrm{Round}_q$, $\mathrm{Compress}_q$/$\mathrm{Decompress}_q$, 메시지 스케일링($\lceil q/2\rfloor m$) 등 Kyber 전반에서 반복적으로 쓰인다.
+- **$\mathrm{Compress}_q$ / $\mathrm{Decompress}_q$ (암호문 압축/압축해제)**: 정수 $X\in[0,q-1]$을 $d$비트($d<\lceil\log_2q\rceil$)로 반올림해 저장 공간을 줄이는 손실 압축 함수. $\mathrm{Compress}_q(X,d)=\lceil(2^d/q)X\rfloor\bmod2^d$, $\mathrm{Decompress}_q(Y,d)=\lceil(q/2^d)Y\rfloor\bmod q$. Kyber 암호문의 $u,v$ 성분에 계수별로 적용해 암호문 크기를 대폭 줄이며, 그 대가로 복호화 오차가 약간 늘어난다.
+- **중심 이항분포 (Central Binomial Distribution, CBD)**: $\eta$쌍의 균등 무작위 비트 $(a_i,b_i)$에 대해 $c=\sum_{i=1}^\eta(a_i-b_i)$로 정의되는 분포. Kyber가 비밀·오차 다항식의 계수를 뽑을 때 균등분포 대신 사용 — 정수 개수가 $2$의 거듭제곱이 아닌 구간 $[-\eta,\eta]$에서의 거부 샘플링(rejection sampling)을 피할 수 있어 상수 시간 구현에 유리하다.
