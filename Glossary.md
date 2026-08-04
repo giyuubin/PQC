@@ -90,3 +90,12 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 - **가장 가까운 정수 표기 $\lceil x\rfloor$ (Nearest Integer, Ties Broken Upward)**: $x$에 가장 가까운 정수를 나타내되, 동점(예: $x=13.5$)인 경우 위로 반올림하는 함수. $\mathrm{Round}_q$, $\mathrm{Compress}_q$/$\mathrm{Decompress}_q$, 메시지 스케일링($\lceil q/2\rfloor m$) 등 Kyber 전반에서 반복적으로 쓰인다.
 - **$\mathrm{Compress}_q$ / $\mathrm{Decompress}_q$ (암호문 압축/압축해제)**: 정수 $X\in[0,q-1]$을 $d$비트($d<\lceil\log_2q\rceil$)로 반올림해 저장 공간을 줄이는 손실 압축 함수. $\mathrm{Compress}_q(X,d)=\lceil(2^d/q)X\rfloor\bmod2^d$, $\mathrm{Decompress}_q(Y,d)=\lceil(q/2^d)Y\rfloor\bmod q$. Kyber 암호문의 $u,v$ 성분에 계수별로 적용해 암호문 크기를 대폭 줄이며, 그 대가로 복호화 오차가 약간 늘어난다.
 - **중심 이항분포 (Central Binomial Distribution, CBD)**: $\eta$쌍의 균등 무작위 비트 $(a_i,b_i)$에 대해 $c=\sum_{i=1}^\eta(a_i-b_i)$로 정의되는 분포. Kyber가 비밀·오차 다항식의 계수를 뽑을 때 균등분포 대신 사용 — 정수 개수가 $2$의 거듭제곱이 아닌 구간 $[-\eta,\eta]$에서의 거부 샘플링(rejection sampling)을 피할 수 있어 상수 시간 구현에 유리하다.
+
+## Kyber and Dilithium (10강 Kyber-PKE 완성형과 Kyber-KEM)
+
+- **키 캡슐화 메커니즘 (Key Encapsulation Mechanism, KEM)**: 두 당사자가 공유 비밀키를 수립하도록 해주는 프로토콜. 키생성·캡슐화(encapsulation)·역캡슐화(decapsulation) 세 알고리즘으로 구성되며, 공개키 암호(PKE)의 암호화/복호화와 달리 캡슐화 알고리즘이 평문을 자유롭게 고르는 대신 비밀키 $K$ 자체를 생성해 낸다.
+- **캡슐화 키 / 역캡슐화 키 (Encapsulation Key, $ek$ / Decapsulation Key, $dk$)**: KEM의 공개키·개인키에 대응하는 명칭. Kyber-KEM에서 $ek=(\rho,t)$(Kyber-PKE 공개키와 같음), $dk=(s,ek,H(ek),z)$(Kyber-PKE 개인키 $s$에 재암호화 검증용 $ek,H(ek)$와 역캡슐화 실패 대비용 비밀 $z$가 추가됨).
+- **Fujisaki-Okamoto 변환 (Fujisaki-Okamoto Transform, FO 변환)**: 선택 평문 공격(CPA)에 안전한 공개키 암호를 선택 암호문 공격(CCA)에 안전한 스킴으로 바꾸는 일반적인 방법(1999). 암호화에 필요한 무작위성을 메시지와 공개키의 해시로부터 결정적으로 유도(역랜덤화)하고, 역캡슐화 시 재암호화해 암호문이 일치하는지 검증하는 방식으로 작동한다. Kyber-KEM은 Hofheinz-Hövelmanns-Kiltz의 변형을 사용해 Kyber-PKE로부터 구성된다.
+- **평문 인지성 (Plaintext Awareness)**: 캡슐화를 수행한 주체가 이미 비밀키 $K$를 알고 있는 경우에만 역캡슐화가 무작위 대체키 $\bar K$가 아니라 $K$를 내놓는다는 성질. FO 변환이 CCA 안전성을 얻는 핵심 메커니즘 — 복호화 오라클에 임의의 암호문을 제출해도 공격자가 실질적인 정보를 얻지 못하게 한다.
+- **IND-CCA (Indistinguishability under Chosen-Ciphertext Attack, 선택 암호문 공격 하 구별 불가능성)**: 공격자가 (도전 암호문을 제외한) 임의의 암호문을 복호화 오라클에 제출해 그 결과를 볼 수 있는 더 강한 공격 모델 하의 구별 불가능성. IND-CPA보다 강한 안전성 개념이며, Kyber-PKE는 IND-CPA만 만족하고 Kyber-KEM이 FO 변환을 통해 IND-CCA를 만족한다.
+- **랜덤 오라클 모델 (Random Oracle Model, ROM)**: 해시 함수를 이상화된 블랙박스(입력마다 진짜 균등 무작위 출력을 내고, 같은 입력엔 항상 같은 출력을 내는 오라클)로 취급하고 그 가정 아래 안전성을 증명하는 방법론. Kyber-KEM의 IND-CCA 안전성 증명이 이 모델(및 양자 공격자를 포함하는 QROM)에 의존한다.
