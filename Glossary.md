@@ -99,3 +99,14 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 - **평문 인지성 (Plaintext Awareness)**: 캡슐화를 수행한 주체가 이미 비밀키 $K$를 알고 있는 경우에만 역캡슐화가 무작위 대체키 $\bar K$가 아니라 $K$를 내놓는다는 성질. FO 변환이 CCA 안전성을 얻는 핵심 메커니즘 — 복호화 오라클에 임의의 암호문을 제출해도 공격자가 실질적인 정보를 얻지 못하게 한다.
 - **IND-CCA (Indistinguishability under Chosen-Ciphertext Attack, 선택 암호문 공격 하 구별 불가능성)**: 공격자가 (도전 암호문을 제외한) 임의의 암호문을 복호화 오라클에 제출해 그 결과를 볼 수 있는 더 강한 공격 모델 하의 구별 불가능성. IND-CPA보다 강한 안전성 개념이며, Kyber-PKE는 IND-CPA만 만족하고 Kyber-KEM이 FO 변환을 통해 IND-CCA를 만족한다.
 - **랜덤 오라클 모델 (Random Oracle Model, ROM)**: 해시 함수를 이상화된 블랙박스(입력마다 진짜 균등 무작위 출력을 내고, 같은 입력엔 항상 같은 출력을 내는 오라클)로 취급하고 그 가정 아래 안전성을 증명하는 방법론. Kyber-KEM의 IND-CCA 안전성 증명이 이 모델(및 양자 공격자를 포함하는 QROM)에 의존한다.
+
+## Kyber and Dilithium (11강 Dilithium (토이 버전과 t 압축 없는 버전))
+
+- **Schnorr 서명 스킴 (Schnorr Signature Scheme)**: 이산로그 문제의 어려움에 근거한 전자서명 스킴(1991). 커밋먼트 $w=g^y$, 챌린지 $c=H(M\|w)$, 응답 $z=y+ca$의 3단계 구조를 가지며, Dilithium 설계의 원형이다.
+- **커밋먼트·챌린지·응답 (Commitment·Challenge·Response)**: Schnorr·Dilithium 서명 생성이 공유하는 3단계 골격. 서명자가 무작위성으로 커밋먼트를 만들고, 메시지와 커밋먼트를 해싱해 챌린지를 얻은 뒤, 비밀키와 챌린지로 응답을 계산한다.
+- **Fiat-Shamir 방법론 (Fiat-Shamir Methodology/Transform)**: 대화형 신원 확인 스킴을 커밋먼트와 메시지를 함께 해싱해 비대화형 서명으로 바꾸는 일반적 기법. Schnorr·Dilithium의 "커밋먼트 → 챌린지 → 응답" 구조가 이 변환의 전형적인 형태다.
+- **HighBits / LowBits (Decompose)**: 정수(또는 다항식 계수) $r$을 $r=r_1\alpha+r_0$($r_1=\mathrm{HighBits}$, $r_0=\mathrm{LowBits}$, $r_0$은 작은 나머지)로 분해하는 연산. Dilithium 검증자가 서명자의 커밋먼트 $w$ 자체가 아니라 $w-cs_2$만 계산할 수 있는 문제를, $cs_2$가 HighBits를 바꾸지 않을 만큼 작다는 사실을 이용해 우회하는 데 쓰인다.
+- **비동차 MSIS / I-MSIS (Inhomogeneous MSIS)**: $Az\equiv b\pmod q$ ($b\ne0$인 짧은 $z$를 찾는 문제)인 MSIS의 비동차 버전. 행렬이 $[A\mid I_k]$ 꼴인 특수한 경우를 표준형(normal-form)이라 부른다. Dilithium의 위조(forgery) 난이도가 표준형 I-MSIS로 환원된다.
+- **SHAKE256/SHAKE128, XOF (eXtendable-Output Function, 확장 가능 출력 함수)**: FIPS 202(SHA-3 표준)에 명시된 가변 길이 해시 함수. 출력 길이를 늘려도 앞부분이 그대로 유지되는 성질(XOF)을 가지며, Dilithium의 ExpandA·ExpandS·ExpandMask·$H$·SampleInBall 구현에 쓰인다.
+- **ExpandA / ExpandS / ExpandMask**: 공개·비밀 시드로부터 각각 행렬 $A$, 서명키 $(s_1,s_2)$, 커밋먼트용 난수 $y$를 결정적으로 생성하는 의사난수 생성기(SHAKE 기반). 공개키·개인키 크기를 시드 하나로 줄이고(Kyber의 $A$ 생성과 같은 기법), 서명 과정을 결정적으로 만드는 데 쓰인다.
+- **EUF-CMA (Existential Unforgeability under Chosen-Message Attack, 선택 메시지 공격 하 존재적 위조 불가능성)**: 전자서명 스킴의 표준 안전성 개념 — 공격자가 서명 오라클에 원하는 메시지를 질의해 서명을 받아볼 수 있어도, 질의하지 않은 새 메시지에 대한 유효한 서명은 위조할 수 없다는 성질. Dilithium은 D-MLWE·MSIS의 어려움과 랜덤 오라클 모델 가정 아래 EUF-CMA를 만족한다 — Kyber-KEM의 IND-CCA에 대응하는 서명 스킴 쪽의 강한 안전성 개념.
