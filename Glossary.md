@@ -110,3 +110,8 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 - **SHAKE256/SHAKE128, XOF (eXtendable-Output Function, 확장 가능 출력 함수)**: FIPS 202(SHA-3 표준)에 명시된 가변 길이 해시 함수. 출력 길이를 늘려도 앞부분이 그대로 유지되는 성질(XOF)을 가지며, Dilithium의 ExpandA·ExpandS·ExpandMask·$H$·SampleInBall 구현에 쓰인다.
 - **ExpandA / ExpandS / ExpandMask**: 공개·비밀 시드로부터 각각 행렬 $A$, 서명키 $(s_1,s_2)$, 커밋먼트용 난수 $y$를 결정적으로 생성하는 의사난수 생성기(SHAKE 기반). 공개키·개인키 크기를 시드 하나로 줄이고(Kyber의 $A$ 생성과 같은 기법), 서명 과정을 결정적으로 만드는 데 쓰인다.
 - **EUF-CMA (Existential Unforgeability under Chosen-Message Attack, 선택 메시지 공격 하 존재적 위조 불가능성)**: 전자서명 스킴의 표준 안전성 개념 — 공격자가 서명 오라클에 원하는 메시지를 질의해 서명을 받아볼 수 있어도, 질의하지 않은 새 메시지에 대한 유효한 서명은 위조할 수 없다는 성질. Dilithium은 D-MLWE·MSIS의 어려움과 랜덤 오라클 모델 가정 아래 EUF-CMA를 만족한다 — Kyber-KEM의 IND-CCA에 대응하는 서명 스킴 쪽의 강한 안전성 개념.
+
+## Kyber and Dilithium (12강 Dilithium (t 압축과 완성형 알고리즘))
+
+- **HighBits / LowBits 표기 갱신**: 11강에서 정의한 HighBits/LowBits는 $q-1$과 $0$이 인접한 경계에서 캐리가 양쪽으로 모두 발생할 수 있는 결함이 있어(Definition 7.5), 12강부터 그 최초 버전은 $\mathrm{HighBits}_0$/$\mathrm{LowBits}_0$(아래 첨자 $0$, preliminary)로 이름이 바뀌고, 아래 첨자 없는 $\mathrm{HighBits}$/$\mathrm{LowBits}$는 그 결함을 고친 조정된 버전을 가리키게 된다.
+- **힌트 비트 (Hint Bit) / MakeHint / UseHint**: $t$ 압축으로 검증자가 $t_1$만 알고 $t_0$을 모를 때도 $\mathrm{HighBits}(w-cs_2)$를 복원할 수 있게 해주는 보조 정보. 서명자가 $\mathrm{MakeHint}(-ct_0,\,w-cs_2+ct_0,\,2\gamma_2)$로 힌트 비트 $h$를 계산해 서명에 실어 보내면, 검증자는 $\mathrm{UseHint}(h,\cdot,2\gamma_2)$로 $ct_0$을 몰라도 같은 HighBits를 복원한다(Definition 7.6·7.7, Lemma 7.8).
