@@ -115,3 +115,10 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 
 - **HighBits / LowBits 표기 갱신**: 11강에서 정의한 HighBits/LowBits는 $q-1$과 $0$이 인접한 경계에서 캐리가 양쪽으로 모두 발생할 수 있는 결함이 있어(Definition 7.5), 12강부터 그 최초 버전은 $\mathrm{HighBits}_0$/$\mathrm{LowBits}_0$(아래 첨자 $0$, preliminary)로 이름이 바뀌고, 아래 첨자 없는 $\mathrm{HighBits}$/$\mathrm{LowBits}$는 그 결함을 고친 조정된 버전을 가리키게 된다.
 - **힌트 비트 (Hint Bit) / MakeHint / UseHint**: $t$ 압축으로 검증자가 $t_1$만 알고 $t_0$을 모를 때도 $\mathrm{HighBits}(w-cs_2)$를 복원할 수 있게 해주는 보조 정보. 서명자가 $\mathrm{MakeHint}(-ct_0,\,w-cs_2+ct_0,\,2\gamma_2)$로 힌트 비트 $h$를 계산해 서명에 실어 보내면, 검증자는 $\mathrm{UseHint}(h,\cdot,2\gamma_2)$로 $ct_0$을 몰라도 같은 HighBits를 복원한다(Definition 7.6·7.7, Lemma 7.8).
+
+## Kyber and Dilithium (13강 Number-Theoretic Transform (NTT))
+
+- **위수 (Order)**: 법 $q$ 곱셈군 $\mathbb{Z}_q^*$의 원소 $\alpha$에 대해 $\alpha^t\equiv1\pmod q$를 만족하는 최소 양의 정수 $t$. $\mathbb{Z}_q^*$가 위수 $q-1$인 순환군이라는 사실로부터, $q-1$의 각 약수 $t$에 대해 위수 $t$인 원소가 항상 존재한다. NTT가 필요로 하는 원소 $\zeta$(위수 $2n$ 또는 $n$)의 존재 근거가 된다.
+- **수론적 변환 (Number-Theoretic Transform, NTT)**: 이산 푸리에 변환(DFT)의 유한체 유사물. 다항식 링 $R_q=\mathbb{Z}_q[x]/(x^n+1)$의 원소를 $\zeta$의 홀수 거듭제곱들에서 평가해 길이 $n$ 벡터로 바꾸는 가역 함수. 이 변환 아래서는 $R_q$의 곱셈이 성분별(아다마르) 곱으로 바뀌어, 다항식 곱셈을 $O(n^2)$ 대신 $O(n\log n)$에 계산할 수 있게 해준다. Kyber·Dilithium 실제 구현의 핵심 최적화.
+- **NTT² (Quadratic NTT)**: $2n\nmid q-1$이라 위수 $2n$ 원소가 존재하지 않는 경우(Kyber의 $q=3329$)에 쓰는 NTT 변형. $x^n+1$이 일차식이 아니라 $n/2$개의 기약 이차식 $x^2-\zeta^i$까지만 쪼개지므로, $R_q$를 $n/2$개의 이차 링 $Q_i=\mathbb{Z}_q[x]/(x^2-\zeta^i)$의 곱 $T_q$로 보낸다. 표준 NTT 계산 트리에서 마지막 한 층을 가지치기한 것과 같다.
+- **비트 반전 (Bit Reversal)**: 정수 $v$의 $k$비트 이진 표현을 거꾸로 뒤집는 연산($\mathrm{brv}$ 또는 $\mathrm{BitRev}$). Dilithium·Kyber의 NTT 정의(FIPS 204/203)가 계산 트리의 자연스러운 리프 순서를 그대로 채택하면서, 이를 "연속된 홀수 거듭제곱" 순서와 연결하는 데 쓰인다 — 재배열(permutation) 비용 없이 인플레이스 계산을 가능하게 하는 핵심 장치.
