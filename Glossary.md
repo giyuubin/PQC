@@ -122,3 +122,14 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 - **수론적 변환 (Number-Theoretic Transform, NTT)**: 이산 푸리에 변환(DFT)의 유한체 유사물. 다항식 링 $R_q=\mathbb{Z}_q[x]/(x^n+1)$의 원소를 $\zeta$의 홀수 거듭제곱들에서 평가해 길이 $n$ 벡터로 바꾸는 가역 함수. 이 변환 아래서는 $R_q$의 곱셈이 성분별(아다마르) 곱으로 바뀌어, 다항식 곱셈을 $O(n^2)$ 대신 $O(n\log n)$에 계산할 수 있게 해준다. Kyber·Dilithium 실제 구현의 핵심 최적화.
 - **NTT² (Quadratic NTT)**: $2n\nmid q-1$이라 위수 $2n$ 원소가 존재하지 않는 경우(Kyber의 $q=3329$)에 쓰는 NTT 변형. $x^n+1$이 일차식이 아니라 $n/2$개의 기약 이차식 $x^2-\zeta^i$까지만 쪼개지므로, $R_q$를 $n/2$개의 이차 링 $Q_i=\mathbb{Z}_q[x]/(x^2-\zeta^i)$의 곱 $T_q$로 보낸다. 표준 NTT 계산 트리에서 마지막 한 층을 가지치기한 것과 같다.
 - **비트 반전 (Bit Reversal)**: 정수 $v$의 $k$비트 이진 표현을 거꾸로 뒤집는 연산($\mathrm{brv}$ 또는 $\mathrm{BitRev}$). Dilithium·Kyber의 NTT 정의(FIPS 204/203)가 계산 트리의 자연스러운 리프 순서를 그대로 채택하면서, 이를 "연속된 홀수 거듭제곱" 순서와 연결하는 데 쓰인다 — 재배열(permutation) 비용 없이 인플레이스 계산을 가능하게 하는 핵심 장치.
+
+## Hash-Based Signature Schemes (14강 Introduction)
+
+- **해시 기반 서명 스킴 (Hash-Based Signature Scheme)**: 사용하는 암호 primitive가 해시 함수 하나뿐인 전자서명 계열. Leslie Lamport가 처음 제안했고(1976), Robert Winternitz·Ralph Merkle가 개선했다(1979). 새로운 수론적·격자 가정을 도입하지 않아 안전성이 해시 함수의 표준 성질(preimage·2차 preimage·충돌 저항성)만으로 논증되며, 고전·양자 공격 모두에 대해 잘 이해돼 있다. 단점은 큰 공개키와 큰 서명. 표준으로 LMS, XMSS, SPHINCS+가 있다.
+- **데이터 무결성 (Data Integrity) / 데이터 출처 인증 (Data Origin Authentication)**: 서명 스킴이 제공하는 인증의 두 보장. 데이터 무결성은 메시지의 허가 없는 변조가 검출됨을, 데이터 출처 인증은 메시지를 보낸 주체의 신원이 확인됨을 뜻한다. 유효한 서명은 두 가지를 동시에 보장한다.
+- **서명 오라클 (Signing Oracle)**: 선택 메시지 공격(chosen-message attack)의 안전성 모델에서 공격자에게 주어지는 가상 장치. 공격자가 고른 임의의 메시지를 넣으면 그 유효한 서명을 돌려주며, 공격자는 앞선 응답을 보고 다음 질의를 정할 수 있다(적응적). 일회성 서명 모델에서는 질의 횟수가 1로 제한된다.
+- **존재적 위조 (Existential Forgery)**: 서명 오라클에 한 번도 넣지 않은 *아무* 메시지 하나에 대해 유효한 (메시지, 서명) 쌍을 만들어내는 것 — 메시지의 내용·의미는 불문. 미리 지정한 특정 메시지를 노리는 선택적 위조(selective forgery), 남이 지정하는 아무 메시지나 서명하는 보편적 위조(universal forgery), 서명키 자체를 복원하는 키 복구(key recovery)보다 공격자에게 쉬운 목표다. 이 가장 쉬운 위조조차 적응적 선택 메시지 공격 아래에서 막아내는 것이 서명 스킴의 가장 강한 표준 안전성 개념(EUF-CMA, 11강)이다.
+- **상태 (State) / 상태 유지형 (Stateful) · 무상태 (Stateless) 서명 스킴**: 상태는 서명자가 보관하고 서명할 때마다 갱신해야 하는 **비밀이 아닌** 데이터. LMS·XMSS는 상태 유지형이며, 상태의 올바른 저장·갱신이 보안에 결정적이다(잘못 롤백되면 일회성 키가 재사용돼 위조가 가능해진다). SPHINCS+는 무상태로, 추적할 상태가 없어 상태 관리 실패라는 위험 범주 자체가 사라지는 대신 서명이 더 커진다.
+- **LMS (Leighton-Micali Signature scheme)**: 표준화된 상태 유지형 해시 기반 서명 스킴. IETF RFC 8554에 완전히 명세되고 NIST SP 800-208(*Recommendation for Stateful Hash-Based Signature Schemes*)에 개설돼 있다. 다수의 일회성 키를 Merkle 트리로 묶은 구조. 이 코스 V5에서 상세히 다룬다.
+- **XMSS (eXtended Merkle Signature Scheme)**: LMS와 매우 유사한 표준화된 상태 유지형 해시 기반 서명 스킴. IETF RFC 8391에 명세되고 NIST SP 800-208에 개설돼 있다.
+- **SPHINCS+ / SLH-DSA (Stateless Hash-Based Digital Signature Algorithm)**: 표준화된 무상태 해시 기반 서명 스킴. FIPS 205(*Stateless Hash-Based Digital Signature Standard*)로 표준화됐으며 NIST 명칭은 SLH-DSA. 이 코스 V6에서 핵심 아이디어를 다룬다.
