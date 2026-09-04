@@ -133,3 +133,10 @@ PQC 세미나 학습 중 새로 나온 용어 누적 정리.
 - **LMS (Leighton-Micali Signature scheme)**: 표준화된 상태 유지형 해시 기반 서명 스킴. IETF RFC 8554에 완전히 명세되고 NIST SP 800-208(*Recommendation for Stateful Hash-Based Signature Schemes*)에 개설돼 있다. 다수의 일회성 키를 Merkle 트리로 묶은 구조. 이 코스 V5에서 상세히 다룬다.
 - **XMSS (eXtended Merkle Signature Scheme)**: LMS와 매우 유사한 표준화된 상태 유지형 해시 기반 서명 스킴. IETF RFC 8391에 명세되고 NIST SP 800-208에 개설돼 있다.
 - **SPHINCS+ / SLH-DSA (Stateless Hash-Based Digital Signature Algorithm)**: 표준화된 무상태 해시 기반 서명 스킴. FIPS 205(*Stateless Hash-Based Digital Signature Standard*)로 표준화됐으며 NIST 명칭은 SLH-DSA. 이 코스 V6에서 핵심 아이디어를 다룬다.
+
+## Hash-Based Signature Schemes (15강 해시 함수와 Lamport 일회성 서명 스킴)
+
+- **사전영상 저항성 / 2차 사전영상 저항성 / 충돌 저항성 (Preimage / Second-Preimage / Collision Resistance)**: 해시 함수의 세 표준 안전성 성질. 사전영상 저항성은 무작위 해시값 $y$가 주어졌을 때 $H(x)=y$인 $x$를 찾기 어렵다는 성질, 2차 사전영상 저항성은 무작위 메시지 $x$가 주어졌을 때 $x$와 다르면서 같은 해시값을 갖는 $x'$을 찾기 어렵다는 성질, 충돌 저항성은 아무것도 주어지지 않은 채 $H(x)=H(x')$인 서로 다른 $x,x'$ 쌍을 찾기 어렵다는 성질이다. 충돌 저항성이 셋 중 가장 강해, (해시값마다 사전영상 개수가 고른) 균일성 가정 하에 나머지 둘을 함의한다.
+- **일반 공격 (Generic Attack)**: 해시 함수의 구체적 설계에 기대지 않고 어떤 해시 함수에도 적용되는 공격. 고전 기준 사전영상·2차 사전영상 찾기는 $2^n$, 충돌 찾기는 생일 역설(birthday paradox)에 의해 $2^{n/2}$; 양자 기준으로는 Grover 알고리즘 덕분에 사전영상·2차 사전영상도 $2^{n/2}$로 줄어 셋 다 $2^{n/2}$에 수렴한다.
+- **van Oorschot–Wiener 병렬 충돌 탐색 (van Oorschot–Wiener Parallel Collision Search)**: 생일 역설에 기반해 적은 메모리로 $O(2^{n/2})$ 시간에 해시 충돌을 찾는 고전 알고리즘. 양자컴퓨터가 있어도 이 비용을 비용 효율적으로 능가하는 대안이 없어, 충돌 탐색의 사실상 최선의 공격으로 남는다.
+- **Lamport 일회성 서명 스킴 (Lamport One-Time Signature Scheme, Lamport OTS)**: Leslie Lamport가 1975년 고안한 최초의 전자서명 스킴. 사전영상 저항적 해시 함수 $G$와 충돌 저항적 해시 함수 $H$만으로 안전성이 증명되며, 서명 하나가 개인키의 절반을 노출해 같은 키로는 메시지 하나만 서명할 수 있다(일회성). Winternitz·Merkle의 개선을 거쳐 LMS(14강)의 기반이 된다.
