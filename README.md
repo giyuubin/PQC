@@ -1,6 +1,6 @@
 # PQC Seminar Study Project
 
-A study repository for an Information Security / Smart Security (ISPL) undergraduate research seminar. Having completed a seminar on modern cryptography, currently studying Post-Quantum Cryptography (PQC).
+A study repository for an Information Security / Smart Security (ISPL) undergraduate research seminar. Completed seminars on modern cryptography and Post-Quantum Cryptography (PQC).
 
 ## Curriculum
 
@@ -10,7 +10,7 @@ Following Prof. Alfred Menezes' (University of Waterloo) [Cryptography 101](http
 2. **Kyber and Dilithium** — Concrete construction and optimization of the NIST standards ML-KEM and ML-DSA
 3. **Hash-Based Signature Schemes** — LMS, XMSS, SPHINCS+ (SLH-DSA)
 
-The SIS/LWE/Module-LWE concepts built in the first course are prerequisites for understanding Kyber and Dilithium, while Hash-Based Signatures are independent of lattice theory and are therefore placed last. Lecture numbers continue sequentially across course boundaries (e.g. if course 1 ends at lecture 7, course 2 starts at lecture 8). The overall study plan targets **completion by October 1, 2026**. See [presentation/0709_1_Introduction.pdf](presentation/0709_1_Introduction.pdf) for the seminar orientation slides.
+The SIS/LWE/Module-LWE concepts built in the first course are prerequisites for understanding Kyber and Dilithium, while Hash-Based Signatures are independent of lattice theory and are therefore placed last. Lecture numbers continue sequentially across course boundaries (e.g. if course 1 ends at lecture 7, course 2 starts at lecture 8). The overall study plan was **completed on October 7, 2026**. See [presentation/0709_1_Introduction.pdf](presentation/0709_1_Introduction.pdf) for the seminar orientation slides.
 
 ## Folder Structure
 
