@@ -4,7 +4,7 @@ A study repository for an Information Security / Smart Security (ISPL) undergrad
 
 ## Curriculum
 
-Following Prof. Alfred Menezes' (University of Waterloo) [Cryptography 101](https://cryptography101.ca) lecture series, studied in the following order. Lecture counts per course aren't tracked here, since Menezes may add lectures to a course over time — the most recent file in `Notes/` reflects both the current lecture count and where progress currently stands.
+Following Prof. Alfred Menezes' (University of Waterloo) [Cryptography 101](https://cryptography101.ca) lecture series, studied in the following order. Lecture counts per course aren't tracked here, since Menezes may add lectures to a course over time — the most recent file in `Notes/` reflects both the lecture count at the time of completion and where the study ended.
 
 1. **Lattice-Based Cryptography** — Mathematical foundations of lattice-based cryptography (SIS, LWE, Ring/Module variants)
 2. **Kyber and Dilithium** — Concrete construction and optimization of the NIST standards ML-KEM and ML-DSA
